@@ -1,8 +1,15 @@
 import React from 'react'
+import HelloWorld from './HelloWorld'
+import ListEmployeeComponent from './Component/ListEmployeeComponent'
 
 const App = () => {
   return (
-    <div>Employee Management System</div>
+    <>
+    
+    <ListEmployeeComponent></ListEmployeeComponent>
+    
+    </>
+    
   )
 }
 
