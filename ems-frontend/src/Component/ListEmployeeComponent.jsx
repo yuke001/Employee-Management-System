@@ -33,45 +33,16 @@ const ListEmployeeComponent = () => {
             "firstName": "Mason",
             "lastName": "Williams",
             "email": "mason.williams@example.com"
-        },
-        {
-            "id": 6,
-            "firstName": "Isabella",
-            "lastName": "Brown",
-            "email": "isabella.brown@example.com"
-        },
-        {
-            "id": 7,
-            "firstName": "James",
-            "lastName": "Davis",
-            "email": "james.davis@example.com"
-        },
-        {
-            "id": 8,
-            "firstName": "Ava",
-            "lastName": "Miller",
-            "email": "ava.miller@example.com"
-        },
-        {
-            "id": 9,
-            "firstName": "Benjamin",
-            "lastName": "Wilson",
-            "email": "benjamin.wilson@example.com"
-        },
-        {
-            "id": 10,
-            "firstName": "Charlotte",
-            "lastName": "Moore",
-            "email": "charlotte.moore@example.com"
         }
+       
     ]
 
 
 
     return (
-        <div>
+        <div className='.container'>
             <h2>List of Employees</h2>
-            <table>
+            <table className='table table-striped table-bordered'>
                 <thead>
                     <tr>
                         <th>Employee Id</th>
