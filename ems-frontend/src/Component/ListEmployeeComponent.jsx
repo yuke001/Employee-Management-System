@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { listEmployees } from '../Services/EmployeeService';
+import { useNavigate } from 'react-router-dom';
 
 const ListEmployeeComponent = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         listEmployees()
@@ -19,11 +22,18 @@ const ListEmployeeComponent = () => {
             });
     }, []);
 
+    function addNewEmployee(){
+        navigate('/add-employee');
+    }
+
     console.log("Employees State:", employees); // Debugging
 
     return (
         <div className="container">
             <h2>List of Employees</h2>
+            <button className='btn btn-primary mb-2' onClick={addNewEmployee}>Add Employee</button>
+
+
             {loading ? (
                 <p>Loading...</p>
             ) : employees.length > 0 ? (
