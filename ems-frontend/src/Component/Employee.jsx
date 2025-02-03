@@ -11,6 +11,12 @@ const Employee = () => {
 
   const navigate = useNavigate();
 
+  const [error, setError] = useState({
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
+
   // // handle first name 
   // const handleFirstName = (e) => setFirstName(e.target.value);
 
@@ -22,20 +28,57 @@ const Employee = () => {
   //saveEmployee
   function saveEmployee(e) {
     e.preventDefault();
-    const employee = { firstName, lastName, email };
-    console.log(employee);
 
-    
-  createEmployee(employee).then((response) => {
-    console.log(response.data);
-    navigate('/employees');
-  }).catch(error => {
-    console.log(error);
-  })
+    if (validateForm()) {
+
+      const employee = { firstName, lastName, email };
+      console.log(employee);
+
+      // create Employee
+      createEmployee(employee).then((response) => {
+        console.log(response.data);
+        navigate('/employees');
+      }).catch(error => {
+        console.log(error);
+      })
+    }
 
   }
 
-  // create Employee
+  // form validation
+  function validateForm() {
+    let valid = true;
+
+    const errorsCopy = { ...error }
+
+    if (firstName.trim()) {
+      errorsCopy.firstName = '';
+    }
+    else {
+      errorsCopy.firstName = 'First Name is required';
+      valid = false;
+    }
+
+    if (lastName.trim()) {
+      errorsCopy.lastName = '';
+    }
+    else {
+      errorsCopy.lastName = 'Last Name is required';
+      valid = false;
+    }
+
+    if (email.trim()) {
+      errorsCopy.email = '';
+    }
+    else {
+      errorsCopy.email = 'Email is required';
+      valid = false;
+    }
+
+    setError(errorsCopy);
+    return valid;
+  }
+
 
 
 
@@ -58,8 +101,10 @@ const Employee = () => {
                     placeholder='Enter Employee First Name'
                     name='firstName'
                     value={firstName}
-                    className='form-control'
+                    className={`form-control ${error.firstName ? 'is-invalid' : ''} `}
                     onChange={(e) => setFirstName(e.target.value)} />
+
+                  {error.firstName && <div className='invalid-feedback'>{error.firstName}</div>}
                 </div>
 
                 {/* Last Name */}
@@ -70,8 +115,10 @@ const Employee = () => {
                     placeholder='Enter Employee Last Name'
                     name='lastName'
                     value={lastName}
-                    className='form-control'
+                    className={`form-control ${error.lastName ? 'is-invalid' : ''} `}
                     onChange={(e) => setLastName(e.target.value)} />
+
+                  {error.lastName && <div className='invalid-feedback'>{error.lastName}</div>}
                 </div>
 
                 {/* Email */}
@@ -82,8 +129,9 @@ const Employee = () => {
                     placeholder='Enter Employee Email'
                     name='email'
                     value={email}
-                    className='form-control'
+                    className={`form-control ${error.email ? 'is-invalid' : ''} `}
                     onChange={(e) => setEmail(e.target.value)} />
+                  {error.email && <div className='invalid-feedback'>{error.email}</div>}
                 </div>
 
                 {/* Button */}
