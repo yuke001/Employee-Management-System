@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createEmployee, getEmployee } from '../Services/EmployeeService';
+import { createEmployee, getEmployee, updateEmployee } from '../Services/EmployeeService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Employee = () => {
@@ -57,24 +57,36 @@ const Employee = () => {
   //   }
   // }
 
-  function saveEmployee(e) {
+  function saveOrUpdateEmployee(e) {
     e.preventDefault();
- 
+
     if (validateForm()) {
- 
+
       const employee = { firstName, lastName, email };
       console.log("Employee data being sent:", employee); // Log the employee data
- 
-      // create Employee
-      createEmployee(employee).then((response) => {
-        console.log(response.data);
-        navigate('/employees');
-      }).catch(error => {
-         console.log(error);
-         console.log(error.response.data); // Log the backend error response
-      })
+
+
+      if (id) {
+        updateEmployee(id, employee).then((response) => {
+          console.log(response.data);
+          navigate('/employees');
+        }).catch(error => {
+          console.error(error);
+        })
+      } else {
+        // create Employee
+        createEmployee(employee).then((response) => {
+          console.log(response.data);
+          navigate('/employees');
+        }).catch(error => {
+          console.log(error);
+          console.log(error.response.data); // Log the backend error response
+        })
+      }
+
+
     }
- 
+
   }
 
   // form validation
@@ -172,7 +184,7 @@ const Employee = () => {
                   )}
                 </div>
                 {/* Button */}
-                <button className="btn btn-success" onClick={saveEmployee}>
+                <button className="btn btn-success" onClick={saveOrUpdateEmployee}>
                   Submit
                 </button>
               </form>
