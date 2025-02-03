@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { listEmployees } from '../Services/EmployeeService';
+import { deleteEmployee, listEmployees } from '../Services/EmployeeService';
 import { useNavigate } from 'react-router-dom';
 
 const ListEmployeeComponent = () => {
@@ -11,29 +11,44 @@ const ListEmployeeComponent = () => {
 
 
     useEffect(() => {
+        getAllEmployees()
+    }, []);
+
+    function getAllEmployees() {
         listEmployees()
             .then((response) => {
                 console.log("API Response:", response.data); // Debugging: Check response
                 const empData = Array.isArray(response.data) ? response.data : response.data.data || [];
-                setEmployees(empData); 
+                setEmployees(empData);
                 setLoading(false);
             })
             .catch(error => {
                 console.log("Error fetching employees:", error);
                 setLoading(false);
             });
-    }, []);
+    }
 
     // function addNewEmployee
-    function addNewEmployee(){
+    function addNewEmployee() {
         navigate('/add-employee');
     }
 
     console.log("Employees State:", employees); // Debugging
 
     // function updateEmployee
-    function updateEmployee(id){
+    function updateEmployee(id) {
         navigate(`/update-employee/${id}`);
+    }
+
+    // function removeEmployee
+
+    function removeEmployee(id) {
+        console.log("Delete Employee with ID:", id);
+        deleteEmployee(id).then((response) => {
+            getAllEmployees()
+        }).catch(error => {
+            console.error(error)
+        })
     }
 
     return (
@@ -53,6 +68,7 @@ const ListEmployeeComponent = () => {
                             <th>Employee Last Name</th>
                             <th>Employee Email</th>
                             <th>Action</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -63,7 +79,10 @@ const ListEmployeeComponent = () => {
                                 <td>{employee.lastName}</td>
                                 <td>{employee.email}</td>
                                 <td>
-                                    <button className='btn btn-info' onClick={()=> updateEmployee(employee.id)}>Update</button>
+                                    <button className='btn btn-info' onClick={() => updateEmployee(employee.id)}>Update</button>
+                                    <button className='btn btn-danger' onClick={() => removeEmployee(employee.id)}
+                                        style={{ marginLeft: '10px' }}
+                                    >Delete</button>
                                 </td>
                             </tr>
                         ))}
