@@ -8,6 +8,8 @@ const ListEmployeeComponent = () => {
 
     const navigate = useNavigate();
 
+
+
     useEffect(() => {
         listEmployees()
             .then((response) => {
@@ -22,11 +24,17 @@ const ListEmployeeComponent = () => {
             });
     }, []);
 
+    // function addNewEmployee
     function addNewEmployee(){
         navigate('/add-employee');
     }
 
     console.log("Employees State:", employees); // Debugging
+
+    // function updateEmployee
+    function updateEmployee(id){
+        navigate(`/update-employee/${id}`);
+    }
 
     return (
         <div className="container">
@@ -44,6 +52,7 @@ const ListEmployeeComponent = () => {
                             <th>Employee First Name</th>
                             <th>Employee Last Name</th>
                             <th>Employee Email</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +62,9 @@ const ListEmployeeComponent = () => {
                                 <td>{employee.firstName}</td>
                                 <td>{employee.lastName}</td>
                                 <td>{employee.email}</td>
+                                <td>
+                                    <button className='btn btn-info' onClick={()=> updateEmployee(employee.id)}>Update</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
