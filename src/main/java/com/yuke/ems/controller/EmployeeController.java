@@ -46,7 +46,14 @@ public class EmployeeController {
 	
 	//fetch employee by id
 	
-	@GetMapping("/employees/id/{id}")
+	// @GetMapping("/employees/id/{id}")
+	// public ResponseEntity<Object> fetchById(@PathVariable int id){
+	// 	return service.fetchById(id);
+	// }
+
+	//fetch employee by id
+	@CrossOrigin(origins = "http://localhost:3000") 
+	@GetMapping("/employees/{id}")
 	public ResponseEntity<Object> fetchById(@PathVariable int id){
 		return service.fetchById(id);
 	}
